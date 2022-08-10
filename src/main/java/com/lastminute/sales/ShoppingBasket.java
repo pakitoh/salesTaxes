@@ -29,6 +29,8 @@ public class ShoppingBasket {
     private BigDecimal calculateTaxRate(Item item) {
         if(item.description().toLowerCase().contains("book")) {
             return BigDecimal.ZERO;
+        } else if(item.description().toLowerCase().contains("chocolate")) {
+            return BigDecimal.ZERO;
         }
         return GENERAL_TAX_RATE;
     }

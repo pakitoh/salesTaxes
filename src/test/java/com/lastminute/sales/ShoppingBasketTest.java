@@ -51,5 +51,4 @@ public class ShoppingBasketTest {
         assertThat(receipt.lines().get(0).salesTax(), equalTo(expectedSalesTax));
         assertThat(receipt.getTotal(), equalTo(expectedTotal));
     }
-
 }

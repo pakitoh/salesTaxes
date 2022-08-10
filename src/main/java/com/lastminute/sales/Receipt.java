@@ -11,4 +11,9 @@ public record Receipt(List<ReceiptLine> lines) {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    public BigDecimal salesTax() {
+        return lines.stream()
+                .map(ReceiptLine::salesTax)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }
