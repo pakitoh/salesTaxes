@@ -17,7 +17,7 @@ public class ShoppingBasketTest {
         Receipt receipt = new ShoppingBasket().purchase(null);
 
         assertThat(receipt.lines().isEmpty(), equalTo(true));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 
     @Test
@@ -27,7 +27,7 @@ public class ShoppingBasketTest {
         Receipt receipt = new ShoppingBasket().purchase(List.of());
 
         assertThat(receipt.lines().isEmpty(), equalTo(true));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class ShoppingBasketTest {
         Receipt receipt = new ShoppingBasket().purchase(List.of(book));
 
         assertThat(receipt.lines().isEmpty(), equalTo(true));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ShoppingBasketTest {
         Receipt receipt = new ShoppingBasket().purchase(List.of(book));
 
         assertThat(receipt.lines().isEmpty(), equalTo(true));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class ShoppingBasketTest {
         Receipt receipt = new ShoppingBasket().purchase(List.of(book));
 
         assertThat(receipt.lines().isEmpty(), equalTo(true));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class ShoppingBasketTest {
         Receipt receipt = new ShoppingBasket().purchase(List.of(book));
 
         assertThat(receipt.lines().isEmpty(), equalTo(true));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class ShoppingBasketTest {
         assertThat(receipt.lines().get(0).salesTax(), equalTo(expectedSalesTax));
         assertThat(receipt.lines().get(0).item().price(), equalTo(bookPrice));
         assertThat(receipt.lines().get(0).total(), equalTo(expectedTotal));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 
     @Test
@@ -110,7 +110,7 @@ public class ShoppingBasketTest {
         assertThat(receipt.lines().get(0).salesTax(), equalTo(expectedSalesTax));
         assertThat(receipt.lines().get(0).item().price(), equalTo(cdPrice));
         assertThat(receipt.lines().get(0).total(), equalTo(expectedTotal));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 
     @Test
@@ -128,7 +128,7 @@ public class ShoppingBasketTest {
 
         assertThat(receipt.lines().size(), equalTo(3));
         assertThat(receipt.salesTax(), equalTo(expectedSalesTax));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 
     @Test
@@ -142,6 +142,6 @@ public class ShoppingBasketTest {
 
         assertThat(receipt.lines().size(), equalTo(1));
         assertThat(receipt.salesTax(), equalTo(expectedSalesTax));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 }

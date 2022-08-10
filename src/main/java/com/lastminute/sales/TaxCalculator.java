@@ -10,7 +10,7 @@ public class TaxCalculator {
     public static final BigDecimal IMPORT_TAX_RATE = BigDecimal.valueOf(5);
     public static final BigDecimal ROUNDING_PACE = new BigDecimal("0.05");
     public static final Set<String> EXEMPT_KEYWORDS = Set.of("book", "chocolate", "pills");
-    public static final Set<String> IMPORTED_KEYWORDS = Set.of("import");
+    public static final Set<String> IMPORT_KEYWORDS = Set.of("import");
 
     public BigDecimal getTaxRate(Item item) {
         final String[] descriptionWords = item.description().toLowerCase().split("\s");
@@ -31,7 +31,7 @@ public class TaxCalculator {
     }
 
     private boolean isImported(String[] descriptionWords) {
-        return IMPORTED_KEYWORDS.stream()
+        return IMPORT_KEYWORDS.stream()
                 .anyMatch(importWord -> Arrays.stream(descriptionWords)
                         .anyMatch(description -> description.contains(importWord)));
     }
@@ -42,7 +42,7 @@ public class TaxCalculator {
                 .divide(BigDecimal.valueOf(100)));
     }
 
-    public BigDecimal round(BigDecimal value) {
+    private BigDecimal round(BigDecimal value) {
         return value.divide(ROUNDING_PACE, 0, RoundingMode.UP)
                 .multiply(ROUNDING_PACE);
 

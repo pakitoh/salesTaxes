@@ -25,7 +25,7 @@ public class AcceptanceTest {
 
         assertThat(receipt.lines().size(), equalTo(3));
         assertThat(receipt.salesTax(), equalTo(expectedSalesTax));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class AcceptanceTest {
 
         assertThat(receipt.lines().size(), equalTo(2));
         assertThat(receipt.salesTax(), equalTo(expectedSalesTax));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 
     @Test
@@ -61,6 +61,6 @@ public class AcceptanceTest {
 
         assertThat(receipt.lines().size(), equalTo(4));
         assertThat(receipt.salesTax(), equalTo(expectedSalesTax));
-        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+        assertThat(receipt.total(), equalTo(expectedTotal));
     }
 }
