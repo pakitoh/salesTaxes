@@ -1,5 +1,6 @@
 # Lastminute Offline Test
 
+
 ## Introduction
 The following exercise is sent to you as an additional tool to be used in your technical interview.
 We ask you to solve it using the programming language that you prefer.
@@ -43,7 +44,6 @@ Output:
 * Sales Taxes: 1.50
 * Total: 29.83
 
-
 #### Scenario #2
 Input:
 * 1 imported box of chocolates at 10.00
@@ -71,28 +71,35 @@ Output:
 
 
 ## The solution
-[TBD]
+This is a simple implementation of the described problem following a TDD approach. 
+It is composed by a bunch of pure functions operating over pure data.
 
-## Usage
+### Item cataloguing problem
+We have simplified to the maximum the problem of cataloguing the input.
+Right now we're just using the plain text description and some keywords in order to find out which category each item belongs to.
+Same mechanism is applied to identify whether the product is imported or not.
+Keywords are hardcoded right now, but they can be easily extracted to configuration values or even moved to an external service or repository.
 
-### How to build
+### Rounding problem
+We can't use directly one of the existing RoundingMode for BigDecimal, so we need to manually do the trick. 
+
+### Validation problem
+Even though is not explicitly mentioned in the problem description, it has been added some simple rules to validate input data before processing is done.
+
+### Not tackled problems
+Right now this project is not concerned about:
+- delivery mechanism: the solution is presented as a pure domain java library.
+- duplicated items when purchasing: the solution assumes that there is a list of items to purchase and processes them sequentially. It's not trying to group similar items to process them at the same time and provide a quantity field in each receipt line.
+
+
+## Acceptance
+Supplied test data has been converted to an extra acceptance test that ensure the solution works correctly.
+
+
+## How to build
 The project uses Apache Maven to build so a simple
 ```
-mvn clean install
+mvn clean package
 ```
-would compile the project
-
-### How to run
-
-#### Java
-The project has been configured to create a fatjar after a successful build in
-```
-target/sales-taxes.jar
-```
-so if you want to run it with default values you just need to
-```
-java -jar $PATH_TO_TARGET_FOLDER/sales-taxes.jar
-```
-and it will start the server.
-
+would compile, run the tests and create the binary artifact in `target` folder.
 
