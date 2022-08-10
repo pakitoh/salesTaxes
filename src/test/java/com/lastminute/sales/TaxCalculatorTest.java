@@ -71,17 +71,6 @@ public class TaxCalculatorTest {
     }
 
     @Test
-    public void calculateSalesTaxShouldReturnZeroWhenZeroTaxRate() {
-        BigDecimal bookPrice = new BigDecimal("12.49");
-        Item book = new Item("Book", bookPrice);
-        BigDecimal taxRate = BigDecimal.ZERO;
-
-        BigDecimal salesTax = new TaxCalculator().calculateSalesTax(book, taxRate);
-
-        assertThat(taxRate, equalTo(BigDecimal.ZERO));
-    }
-
-    @Test
     public void calculateSalesTaxShouldReturnTaxRatePercentageOverItemPriceWhenGeneraItem() {
         BigDecimal cdPrice = new BigDecimal("15.00");
         Item cd = new Item("Music CD", cdPrice);
@@ -91,6 +80,17 @@ public class TaxCalculatorTest {
         BigDecimal salesTax = new TaxCalculator().calculateSalesTax(cd, taxRate);
 
         assertThat(salesTax, equalTo(expectedSalesTax));
+    }
+
+    @Test
+    public void calculateSalesTaxShouldReturn000WhenZeroTaxRate() {
+        BigDecimal bookPrice = new BigDecimal("12.49");
+        Item book = new Item("Book", bookPrice);
+        BigDecimal taxRate = BigDecimal.ZERO;
+
+        BigDecimal salesTax = new TaxCalculator().calculateSalesTax(book, taxRate);
+
+        assertThat(salesTax, equalTo(new BigDecimal("0.00")));
     }
 
     @Test

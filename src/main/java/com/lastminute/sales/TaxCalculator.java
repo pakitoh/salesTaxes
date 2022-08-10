@@ -14,10 +14,10 @@ public class TaxCalculator {
 
     public BigDecimal getTaxRate(Item item) {
         final String[] descriptionWords = item.description().toLowerCase().split("\s");
-        if(isImported(descriptionWords) && !isExempt(descriptionWords)) {
-            return IMPORT_TAX_RATE.add(GENERAL_TAX_RATE);
-        } else if(isImported(descriptionWords) && isExempt(descriptionWords)) {
+        if(isImported(descriptionWords) && isExempt(descriptionWords)) {
             return IMPORT_TAX_RATE;
+        } else if(isImported(descriptionWords) && !isExempt(descriptionWords)) {
+            return IMPORT_TAX_RATE.add(GENERAL_TAX_RATE);
         } else if(!isImported(descriptionWords) && !isExempt(descriptionWords)) {
             return GENERAL_TAX_RATE;
         }

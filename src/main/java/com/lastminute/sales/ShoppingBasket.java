@@ -3,6 +3,7 @@ package com.lastminute.sales;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ShoppingBasket {
 
@@ -13,19 +14,28 @@ public class ShoppingBasket {
     }
 
     public Receipt purchase(List<Item> items) {
-        return new Receipt(items.stream()
-                .map(this::purchase)
-                .collect(Collectors.toList()));
+        final List<ReceiptLine> lines = validate(items)
+                .map(this::purchaseItem)
+                .collect(Collectors.toList());
+        return new Receipt(lines);
     }
 
-    public ReceiptLine purchase(Item item) {
+    private Stream<Item> validate(List<Item> items) {
+        if(items == null) {
+            return Stream.of();
+        }
+        return items.stream().filter(Item::isValid);
+    }
+
+
+    private ReceiptLine purchaseItem(Item item) {
         final BigDecimal taxRate = taxCalculator.getTaxRate(item);
+        final BigDecimal salesTax = taxCalculator.calculateSalesTax(item, taxRate);
         return new ReceiptLine(
-                item.description(),
-                item.price(),
+                item,
                 taxRate,
-                taxCalculator.calculateSalesTax(item, taxRate)
-        );
+                salesTax,
+                item.price().add(salesTax));
     }
 
 }

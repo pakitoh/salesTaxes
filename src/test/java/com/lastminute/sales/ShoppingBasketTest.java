@@ -11,7 +11,17 @@ import static org.hamcrest.Matchers.equalTo;
 public class ShoppingBasketTest {
 
     @Test
-    public void purchaseShouldReturnReceiptWithTotal0WhenNoItems() {
+    public void purchaseShouldReturnEmptyReceiptWhenNullItems() {
+        BigDecimal expectedTotal = BigDecimal.ZERO;
+
+        Receipt receipt = new ShoppingBasket().purchase(null);
+
+        assertThat(receipt.lines().isEmpty(), equalTo(true));
+        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+    }
+
+    @Test
+    public void purchaseShouldReturnEmptyReceiptWhenNoItems() {
         BigDecimal expectedTotal = BigDecimal.ZERO;
 
         Receipt receipt = new ShoppingBasket().purchase(List.of());
@@ -21,7 +31,54 @@ public class ShoppingBasketTest {
     }
 
     @Test
-    public void purchaseShouldReturnReceiptWithTotalAndNoTaxWhenOneBook() {
+    public void purchaseShouldReturnEmptyReceiptWhenItemWithNullDescription() {
+        BigDecimal bookPrice = new BigDecimal("12.49");
+        Item book = new Item(null, bookPrice);
+        BigDecimal expectedTotal = BigDecimal.ZERO;
+
+        Receipt receipt = new ShoppingBasket().purchase(List.of(book));
+
+        assertThat(receipt.lines().isEmpty(), equalTo(true));
+        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+    }
+
+    @Test
+    public void purchaseShouldReturnEmptyReceiptWhenItemWithEmptyDescription() {
+        BigDecimal bookPrice = new BigDecimal("12.49");
+        Item book = new Item("", bookPrice);
+        BigDecimal expectedTotal = BigDecimal.ZERO;
+
+        Receipt receipt = new ShoppingBasket().purchase(List.of(book));
+
+        assertThat(receipt.lines().isEmpty(), equalTo(true));
+        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+    }
+
+    @Test
+    public void purchaseShouldReturnEmjptyReceiptWhenItemWithNullPrice() {
+        Item book = new Item("Book", null);
+        BigDecimal expectedTotal = BigDecimal.ZERO;
+
+        Receipt receipt = new ShoppingBasket().purchase(List.of(book));
+
+        assertThat(receipt.lines().isEmpty(), equalTo(true));
+        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+    }
+
+    @Test
+    public void purchaseShouldReturnEmptyReceiptWhenItemWithNegativePrice() {
+        BigDecimal bookPrice = new BigDecimal("-12.49");
+        Item book = new Item("Book", bookPrice);
+        BigDecimal expectedTotal = BigDecimal.ZERO;
+
+        Receipt receipt = new ShoppingBasket().purchase(List.of(book));
+
+        assertThat(receipt.lines().isEmpty(), equalTo(true));
+        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+    }
+
+    @Test
+    public void purchaseShouldReturnReceiptWithTotalAndNoTaxWhenExemptedItem() {
         BigDecimal bookPrice = new BigDecimal("12.49");
         Item book = new Item("Book", bookPrice);
         BigDecimal expectedTotal = bookPrice;
@@ -33,11 +90,13 @@ public class ShoppingBasketTest {
         assertThat(receipt.lines().size(), equalTo(1));
         assertThat(receipt.lines().get(0).taxRate(), equalTo(expectedTaxRate));
         assertThat(receipt.lines().get(0).salesTax(), equalTo(expectedSalesTax));
+        assertThat(receipt.lines().get(0).item().price(), equalTo(bookPrice));
+        assertThat(receipt.lines().get(0).total(), equalTo(expectedTotal));
         assertThat(receipt.getTotal(), equalTo(expectedTotal));
     }
 
     @Test
-    public void purchaseShouldReturnReceiptWithTotalAndGeneralTaxWhenOneCD() {
+    public void purchaseShouldReturnReceiptWithTotalAndGeneralTaxWhenGeneralItem() {
         BigDecimal cdPrice = new BigDecimal("14.99");
         Item cd = new Item("Music CD", cdPrice);
         BigDecimal expectedTotal = new BigDecimal("16.49");
@@ -49,6 +108,8 @@ public class ShoppingBasketTest {
         assertThat(receipt.lines().size(), equalTo(1));
         assertThat(receipt.lines().get(0).taxRate(), equalTo(expectedTaxRate));
         assertThat(receipt.lines().get(0).salesTax(), equalTo(expectedSalesTax));
+        assertThat(receipt.lines().get(0).item().price(), equalTo(cdPrice));
+        assertThat(receipt.lines().get(0).total(), equalTo(expectedTotal));
         assertThat(receipt.getTotal(), equalTo(expectedTotal));
     }
 
