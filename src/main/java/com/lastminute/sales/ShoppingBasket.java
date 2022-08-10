@@ -19,7 +19,7 @@ public class ShoppingBasket {
     }
 
     public ReceiptLine purchase(Item item) {
-        final BigDecimal taxRate = taxCalculator.calculateTaxRate(item);
+        final BigDecimal taxRate = taxCalculator.getTaxRate(item);
         return new ReceiptLine(
                 item.description(),
                 item.price(),

@@ -53,6 +53,24 @@ public class ShoppingBasketTest {
     }
 
     @Test
+    public void purchaseShouldReturnReceiptAddingTotalAndTaxesWhenMultipleItems() {
+        BigDecimal cdPrice = new BigDecimal("14.99");
+        Item cd = new Item("Music CD", cdPrice);
+        BigDecimal bookPrice = new BigDecimal("12.49");
+        Item book = new Item("Book", bookPrice);
+        BigDecimal chocoBarPrice = new BigDecimal("0.85");
+        Item chocoBar = new Item("Chocolate bar", chocoBarPrice);
+        BigDecimal expectedTotal = new BigDecimal("29.83");
+        BigDecimal expectedSalesTax = new BigDecimal("1.50");
+
+        Receipt receipt = new ShoppingBasket().purchase(List.of(cd, book, chocoBar));
+
+        assertThat(receipt.lines().size(), equalTo(3));
+        assertThat(receipt.salesTax(), equalTo(expectedSalesTax));
+        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+    }
+
+    @Test
     public void purchaseShouldReturnReceiptIncludingImportTaxWhenImportedItem() {
         BigDecimal chocoPrice = new BigDecimal("10.00");
         Item choco = new Item("Imported box of chocolates", chocoPrice);
