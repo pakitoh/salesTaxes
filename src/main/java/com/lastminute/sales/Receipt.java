@@ -10,4 +10,5 @@ public record Receipt(List<ReceiptLine> lines) {
                 .map(ReceiptLine::total)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
 }
