@@ -69,4 +69,39 @@ public class TaxCalculatorTest {
 
         assertThat(taxRate, equalTo(expectedTaxRate));
     }
+
+    @Test
+    public void calculateSalesTaxShouldReturnZeroWhenZeroTaxRate() {
+        BigDecimal bookPrice = new BigDecimal("12.49");
+        Item book = new Item("Book", bookPrice);
+        BigDecimal taxRate = BigDecimal.ZERO;
+
+        BigDecimal salesTax = new TaxCalculator().calculateSalesTax(book, taxRate);
+
+        assertThat(taxRate, equalTo(BigDecimal.ZERO));
+    }
+
+    @Test
+    public void calculateSalesTaxShouldReturnTaxRatePercentageOverItemPriceWhenGeneraItem() {
+        BigDecimal cdPrice = new BigDecimal("15.00");
+        Item cd = new Item("Music CD", cdPrice);
+        BigDecimal taxRate = TaxCalculator.GENERAL_TAX_RATE;
+        BigDecimal expectedSalesTax = new BigDecimal("1.50");
+
+        BigDecimal salesTax = new TaxCalculator().calculateSalesTax(cd, taxRate);
+
+        assertThat(salesTax, equalTo(expectedSalesTax));
+    }
+
+    @Test
+    public void calculateSalesTaxShouldRoundUpToNearest005() {
+        BigDecimal perfumePrice = new BigDecimal("47.50");
+        Item perfume = new Item("Imported bottle of perfume", perfumePrice);
+        BigDecimal taxRate = new BigDecimal("15");
+        BigDecimal expectedSalesTax = new BigDecimal("7.15");
+
+        BigDecimal salesTax = new TaxCalculator().calculateSalesTax(perfume, taxRate);
+
+        assertThat(salesTax, equalTo(expectedSalesTax));
+    }
 }

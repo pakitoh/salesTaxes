@@ -8,6 +8,7 @@ import java.util.Set;
 public class TaxCalculator {
     public static final BigDecimal GENERAL_TAX_RATE = BigDecimal.valueOf(10);
     public static final BigDecimal IMPORT_TAX_RATE = BigDecimal.valueOf(5);
+    public static final BigDecimal ROUNDING_PACE = new BigDecimal("0.05");
     public static final Set<String> EXEMPT_KEYWORDS = Set.of("book", "chocolate", "pills");
     public static final Set<String> IMPORTED_KEYWORDS = Set.of("import");
 
@@ -42,6 +43,8 @@ public class TaxCalculator {
     }
 
     public BigDecimal round(BigDecimal value) {
-        return value.setScale(2, RoundingMode.HALF_UP);
+        return value.divide(ROUNDING_PACE, 0, RoundingMode.UP)
+                .multiply(ROUNDING_PACE);
+
     }
 }
