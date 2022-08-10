@@ -16,6 +16,24 @@ public class ShoppingBasketTest {
 
         Receipt receipt = new ShoppingBasket().purchase(List.of());
 
+        assertThat(receipt.lines().isEmpty(), equalTo(true));
         assertThat(receipt.getTotal(), equalTo(expectedTotal));
     }
+
+    @Test
+    public void purchaseShouldReturnReceiptWithTotalAndNoTaxWhenOneBook() {
+        BigDecimal bookPrice = new BigDecimal("12.49");
+        Item book = new Item("Book", bookPrice);
+        BigDecimal expectedTotal = bookPrice;
+        BigDecimal expectedTaxRate = BigDecimal.ZERO;
+        BigDecimal expectedSalesTax = BigDecimal.ZERO;
+
+        Receipt receipt = new ShoppingBasket().purchase(List.of(book));
+
+        assertThat(receipt.lines().size(), equalTo(1));
+        assertThat(receipt.lines().get(0).taxRate(), equalTo(expectedTaxRate));
+        assertThat(receipt.lines().get(0).salesTax(), equalTo(expectedSalesTax));
+        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+    }
+
 }

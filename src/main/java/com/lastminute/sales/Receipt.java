@@ -1,9 +1,13 @@
 package com.lastminute.sales;
 
 import java.math.BigDecimal;
+import java.util.List;
 
-public class Receipt {
+public record Receipt(List<ReceiptLine> lines) {
+
     public BigDecimal getTotal() {
-        return BigDecimal.ZERO;
+        return lines.stream()
+                .map(ReceiptLine::total)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
