@@ -51,4 +51,18 @@ public class ShoppingBasketTest {
         assertThat(receipt.lines().get(0).salesTax(), equalTo(expectedSalesTax));
         assertThat(receipt.getTotal(), equalTo(expectedTotal));
     }
+
+    @Test
+    public void purchaseShouldReturnReceiptIncludingImportTaxWhenImportedItem() {
+        BigDecimal chocoPrice = new BigDecimal("10.00");
+        Item choco = new Item("Imported box of chocolates", chocoPrice);
+        BigDecimal expectedTotal = new BigDecimal("10.50");
+        BigDecimal expectedSalesTax = new BigDecimal("0.50");
+
+        Receipt receipt = new ShoppingBasket().purchase(List.of(choco));
+
+        assertThat(receipt.lines().size(), equalTo(1));
+        assertThat(receipt.salesTax(), equalTo(expectedSalesTax));
+        assertThat(receipt.getTotal(), equalTo(expectedTotal));
+    }
 }
